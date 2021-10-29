@@ -28,10 +28,8 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public List<Paciente> findPacienteById(Integer id) {
-        List<Paciente> lista = new ArrayList<>();
+    public Paciente findPacienteById(Integer id) {
         Paciente paciente = pacienteRepository.findById(id).get();
-        lista.add(paciente);
-        return lista;
+        return paciente;
     }
 }
