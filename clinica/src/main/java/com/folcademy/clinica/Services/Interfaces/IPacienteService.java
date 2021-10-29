@@ -7,7 +7,7 @@ import java.util.List;
 public interface IPacienteService {
 
     List<Paciente> findAllPacientes();
-    List<Paciente> findPacienteById(Integer id);
+    Paciente findPacienteById(Integer id);
 
 
 }
