@@ -8,7 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PacienteRepository extends PagingAndSortingRepository<Paciente, Integer> {
-
     Page<Paciente> findAllByApellido(String apellido, Pageable pageable);
-
 }
