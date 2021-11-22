@@ -47,7 +47,7 @@ public class MedicoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable(name = "id") int id) {
+    public ResponseEntity<MedicoDto> delete(@PathVariable(name = "id") int id) {
         return ResponseEntity.ok(medicoService.delete(id));
 
 
