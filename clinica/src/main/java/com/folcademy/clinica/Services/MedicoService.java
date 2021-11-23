@@ -1,5 +1,7 @@
 package com.folcademy.clinica.Services;
 
+import com.folcademy.clinica.Exceptions.BadRequestException;
+import com.folcademy.clinica.Exceptions.NotFoundException;
 import com.folcademy.clinica.Model.Dtos.MedicoDto;
 import com.folcademy.clinica.Model.Dtos.MedicoEnteroDto;
 import com.folcademy.clinica.Model.Entities.Medico;
@@ -27,6 +29,8 @@ public class MedicoService implements IMedicoService {
     public List<MedicoDto> findAllMedicos() {
         List<MedicoDto> medicos=new ArrayList<>();
         List<Medico> medicosEntities= (List<Medico>) medicoRepository.findAll();
+        if (medicosEntities.isEmpty())
+            throw new NotFoundException("No se encontraron medicos");
 
         for (Medico medicoEntity : medicosEntities){
             medicos.add(medicoMapper.entityToDto(medicoEntity));
@@ -39,6 +43,8 @@ public class MedicoService implements IMedicoService {
 
     @Override
     public MedicoDto findMedicoById(Integer id) {
+        if (!medicoRepository.existsById(id))
+            throw new NotFoundException("No Existe el medico");
         Medico medicoEntity = medicoRepository.findById(id).orElse(null);
         MedicoDto medicoDto = medicoMapper.entityToDto(medicoEntity);
         return medicoDto;
@@ -46,11 +52,9 @@ public class MedicoService implements IMedicoService {
 
     @Override
     public MedicoDto save(Medico medico) {
-        if (Objects.isNull(medico.getNombre())
-                || Objects.isNull(medico.getTelefono())
-                || Objects.isNull(medico.getApellido()))
-            return null;
         medico.setIdmedico(null);
+        if (medico.getConsulta()<0)
+            throw new BadRequestException("La consulta no puede ser menor a 0");
         medicoRepository.save(medico);
         MedicoDto medicoDto = medicoMapper.entityToDto(medico);
         return medicoDto;
@@ -58,7 +62,7 @@ public class MedicoService implements IMedicoService {
 
     public MedicoEnteroDto edit(Integer idMedico, MedicoEnteroDto dto) {
         if (!medicoRepository.existsById(idMedico))
-            return null;
+            throw new NotFoundException("No existe el medico");
         dto.setIdmedico(idMedico);
         return medicoMapper.entityToEnteroDto(
                     medicoRepository.save(
@@ -67,17 +71,14 @@ public class MedicoService implements IMedicoService {
                             )
                     )
         );
-
-
-
-
-
     }
 
-    public boolean delete(Integer id) {
+    public MedicoDto delete(Integer id) {
         if (!medicoRepository.existsById(id))
-            return false;
+            throw new NotFoundException("No existe el medico");
+        Medico medicoEntity = medicoRepository.findById(id).get();
+        MedicoDto medicoDto = medicoMapper.entityToDto(medicoEntity);
         medicoRepository.deleteById(id);
-        return true;
+        return medicoDto;
     }
 }
