@@ -17,6 +17,8 @@ public class MedicoMapper {
                                 ent.getIdmedico(),
                                 ent.getNombre(),
                                 ent.getApellido(),
+                                ent.getProfesion(),
+                                ent.getConsulta(),
                                 ent.getTelefono()
                         )
                 )
@@ -29,6 +31,8 @@ public class MedicoMapper {
         entity.setIdmedico(dto.getId());
         entity.setNombre(dto.getNombre());
         entity.setApellido(dto.getApellido());
+        entity.setProfesion(dto.getProfesion());
+        entity.setConsulta(dto.getConsulta());
         entity.setTelefono(dto.getTelefono());
         return entity;
     }
@@ -41,6 +45,8 @@ public class MedicoMapper {
                                 ent.getIdmedico(),
                                 ent.getNombre(),
                                 ent.getApellido(),
+                                ent.getProfesion(),
+                                ent.getConsulta(),
                                 ent.getTelefono()
                         )
                 )
@@ -52,6 +58,8 @@ public class MedicoMapper {
         entity.setIdmedico(dto.getIdmedico());
         entity.setNombre(dto.getNombre());
         entity.setApellido(dto.getApellido());
+        entity.setProfesion(dto.getProfesion());
+        entity.setConsulta(dto.getConsulta());
         entity.setTelefono(dto.getTelefono());
         return entity;
     }
