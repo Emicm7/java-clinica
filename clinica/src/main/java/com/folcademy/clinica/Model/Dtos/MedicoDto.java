@@ -19,5 +19,11 @@ public class MedicoDto {
     String apellido;
 
     @NotNull
+    String profesion;
+
+    @NotNull
+    Integer consulta;
+
+    @NotNull
     String telefono;
 }
