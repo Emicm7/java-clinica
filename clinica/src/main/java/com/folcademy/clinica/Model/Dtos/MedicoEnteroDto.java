@@ -15,5 +15,9 @@ public class MedicoEnteroDto {
 
     String apellido = "";
 
+    String profesion;
+
+    Integer consulta;
+
     String telefono;
 }
