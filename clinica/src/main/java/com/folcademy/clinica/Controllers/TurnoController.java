@@ -1,7 +1,9 @@
 package com.folcademy.clinica.Controllers;
 
 import com.folcademy.clinica.Model.Dtos.MedicoDto;
+import com.folcademy.clinica.Model.Dtos.MedicoEnteroDto;
 import com.folcademy.clinica.Model.Dtos.TurnoDto;
+import com.folcademy.clinica.Model.Dtos.TurnoEnteroDto;
 import com.folcademy.clinica.Model.Entities.Medico;
 import com.folcademy.clinica.Model.Entities.Turno;
 import com.folcademy.clinica.Services.TurnoService;
@@ -21,21 +23,35 @@ public class TurnoController {
     }
 
     @GetMapping(value = "")
-    public ResponseEntity<List<TurnoDto>> findAll() {
+    public ResponseEntity<List<TurnoEnteroDto>> findAll() {
         return ResponseEntity
                 .ok()
                 .body(turnoService.findAllTurnos());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TurnoDto> getOne(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<TurnoEnteroDto> getOne(@PathVariable(name = "id") Integer id) {
         return ResponseEntity
                 .ok()
                 .body(turnoService.findTurnoById(id));
     }
 
     @PostMapping("")
-    public ResponseEntity<TurnoDto> save(@RequestBody @Validated Turno entity) {
-        return ResponseEntity.ok(turnoService.save(entity));
+    public ResponseEntity<TurnoEnteroDto> save(@RequestBody @Validated TurnoDto turno) {
+        return ResponseEntity.ok(turnoService.save(turno));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TurnoEnteroDto> edit(@PathVariable(name = "id") int id,
+                                               @RequestBody @Validated TurnoDto dto) {
+        return ResponseEntity.ok(turnoService.edit(id, dto));
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TurnoEnteroDto> delete(@PathVariable(name = "id") int id) {
+        return ResponseEntity.ok(turnoService.delete(id));
+
+
     }
 }
