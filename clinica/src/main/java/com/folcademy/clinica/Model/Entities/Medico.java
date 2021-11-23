@@ -21,6 +21,10 @@ public class Medico {
     String nombre = "";
     @Column(name = "Apellido")
     String apellido;
+    @Column(name = "Profesion")
+    String profesion;
+    @Column(name = "Consulta")
+    Integer consulta;
     @Column(name = "Telefono")
     String telefono;
 
