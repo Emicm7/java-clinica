@@ -5,6 +5,7 @@ import com.folcademy.clinica.Model.Dtos.MedicoEnteroDto;
 import com.folcademy.clinica.Model.Entities.Medico;
 import com.folcademy.clinica.Services.MedicoService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class MedicoController {
         this.medicoService = medicoService;
     }
 
-
+    @PreAuthorize("hasAuthority('get')")
     @GetMapping(value = "")
     public ResponseEntity<List<MedicoDto>> findAll() {
         return ResponseEntity
@@ -27,6 +28,7 @@ public class MedicoController {
                 .body(medicoService.findAllMedicos());
     }
 
+    @PreAuthorize("hasAuthority('get')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<MedicoDto> getOne(@PathVariable(name = "id") Integer id) {
         return ResponseEntity
@@ -34,6 +36,7 @@ public class MedicoController {
                 .body(medicoService.findMedicoById(id));
     }
 
+    @PreAuthorize("hasAuthority('post')")
     @PostMapping("")
     public ResponseEntity<MedicoDto> save(@RequestBody @Validated Medico dto) {
         return ResponseEntity.ok(medicoService.save(dto));
