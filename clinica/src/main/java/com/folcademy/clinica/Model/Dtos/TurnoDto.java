@@ -1,6 +1,7 @@
 package com.folcademy.clinica.Model.Dtos;
 
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,12 +28,12 @@ public class TurnoDto {
     Time hora;
 
     @NotNull
-    int atendido;
+    Integer atendido;
 
-    @NotNull
+
     Integer idPaciente;
 
-    @NotNull
+
     Integer idMedico;
 
 

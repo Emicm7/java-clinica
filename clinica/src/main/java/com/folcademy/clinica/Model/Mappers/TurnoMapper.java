@@ -24,7 +24,6 @@ public class TurnoMapper {
 
     public Turno dtoToEntity(TurnoDto dto) {
         Turno entity = new Turno();
-        entity.setIdTurno(dto.getId());
         entity.setFecha(dto.getFecha());
         entity.setHora(dto.getHora());
         entity.setAtendido(dto.getAtendido());

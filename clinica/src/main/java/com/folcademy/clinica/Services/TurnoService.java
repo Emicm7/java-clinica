@@ -65,8 +65,10 @@ public class TurnoService implements ITurnoService {
 
     @Override
     public TurnoEnteroDto save(TurnoDto turno) {
-        if (turno.getAtendido()<0)
-            throw new BadRequestException("El campo Atendido no puede ser menor a 0");
+        if (!pacienteRepository.existsById(turno.getIdPaciente()))
+            throw new NotFoundException("No existe el paciente");
+        if (!medicoRepository.existsById(turno.getIdMedico()))
+            throw new NotFoundException("No existe el medico");
         Turno turnoEntity = turnoMapper.dtoToEntity(turno);
         Paciente paciente = pacienteRepository.findById(turno.getIdPaciente()).get();
         Medico medico = medicoRepository.findById(turno.getIdMedico()).get();
@@ -82,11 +84,16 @@ public class TurnoService implements ITurnoService {
     }
 
     public TurnoEnteroDto edit(Integer idTurno, TurnoDto dto) {
+        System.out.println(idTurno);
         if (!turnoRepository.existsById(idTurno))
             throw new NotFoundException("No existe el turno");
-        Turno turnoEntity = turnoMapper.dtoToEntity(dto);
+        Turno turnoEntity = turnoRepository.getById(idTurno);
+        System.out.println(turnoEntity);
         Paciente paciente = pacienteRepository.findById(dto.getIdPaciente()).get();
         Medico medico = medicoRepository.findById(dto.getIdMedico()).get();
+        turnoEntity.setHora(dto.getHora());
+        turnoEntity.setFecha(dto.getFecha());
+        turnoEntity.setAtendido(dto.getAtendido());
         turnoEntity.setMedico(medico);
         turnoEntity.setPaciente(paciente);
         turnoEntity.setIdMedico(dto.getIdMedico());
