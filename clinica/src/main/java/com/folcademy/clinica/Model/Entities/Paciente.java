@@ -17,15 +17,15 @@ public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idpaciente", columnDefinition = "INT(10) UNSIGNED")
-    public Integer idpaciente;
-    @Column(name = "dni", columnDefinition = "VARCHAR")
-    public String dni;
-    @Column(name = "Nombre", columnDefinition = "VARCHAR")
-    public String nombre;
-    @Column(name = "Apellido", columnDefinition = "VARCHAR")
-    public String apellido;
-    @Column(name = "Telefono", columnDefinition = "VARCHAR")
-    public String  telefono;
+    Integer idpaciente;
+    @Column(name = "dni")
+    String dni;
+    @Column(name = "Nombre")
+    String nombre;
+    @Column(name = "Apellido")
+    String apellido;
+    @Column(name = "Telefono")
+    String  telefono;
 
     @Override
     public boolean equals(Object o) {
