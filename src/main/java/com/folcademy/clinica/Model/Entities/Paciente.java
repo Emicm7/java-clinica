@@ -16,7 +16,7 @@ import java.util.Objects;
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idpaciente", columnDefinition = "INT(10) UNSIGNED")
+    @Column(name = "idpaciente")
     Integer idpaciente;
     @Column(name = "dni")
     String dni;
