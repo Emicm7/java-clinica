@@ -4,6 +4,7 @@ import com.folcademy.clinica.Model.Dtos.MedicoDto;
 import com.folcademy.clinica.Model.Dtos.MedicoEnteroDto;
 import com.folcademy.clinica.Model.Entities.Medico;
 import com.folcademy.clinica.Services.MedicoService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,17 @@ public class MedicoController {
         return ResponseEntity
                 .ok()
                 .body(medicoService.findAllMedicos());
+    }
+
+    @GetMapping(value = "/page")
+    public ResponseEntity<Page<MedicoDto>> findAllByPage(
+            @RequestParam(name = "pageNumber",defaultValue = "1") Integer pageNumber,
+            @RequestParam(name = "pageSize",defaultValue = "2") Integer pageSize,
+            @RequestParam(name = "orderField",defaultValue = "apellido") String orderField
+    ) {
+        return ResponseEntity
+                .ok()
+                .body(medicoService.findAllByPage(pageNumber,pageSize,orderField));
     }
 
     @PreAuthorize("hasAuthority('get')")
