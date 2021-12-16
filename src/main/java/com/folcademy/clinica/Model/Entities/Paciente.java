@@ -27,6 +27,10 @@ public class Paciente {
     @Column(name = "Telefono")
     String  telefono;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "persona_id", referencedColumnName = "idpersona")
+    private Persona persona;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
