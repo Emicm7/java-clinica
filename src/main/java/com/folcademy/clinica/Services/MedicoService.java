@@ -8,6 +8,10 @@ import com.folcademy.clinica.Model.Entities.Medico;
 import com.folcademy.clinica.Model.Mappers.MedicoMapper;
 import com.folcademy.clinica.Model.Repositories.MedicoRepository;
 import com.folcademy.clinica.Services.Interfaces.IMedicoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -80,5 +84,10 @@ public class MedicoService implements IMedicoService {
         MedicoDto medicoDto = medicoMapper.entityToDto(medicoEntity);
         medicoRepository.deleteById(id);
         return medicoDto;
+    }
+
+    public Page<MedicoDto> findAllByPage(Integer pageNumber, Integer pageSize, String orderField) {
+        Pageable pageable = PageRequest.of(pageNumber,pageSize, Sort.by(orderField));
+        return medicoRepository.findAll(pageable).map(medicoMapper::entityToDto);
     }
 }
