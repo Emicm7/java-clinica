@@ -1,5 +1,6 @@
 package com.folcademy.clinica.Model.Dtos;
 
+import com.folcademy.clinica.Model.Entities.Persona;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,10 +13,8 @@ import lombok.NoArgsConstructor;
 public class MedicoDto {
     Integer id;
 
-    @NotNull
     String nombre;
 
-    @NotNull
     String apellido;
 
     @NotNull
@@ -24,6 +23,5 @@ public class MedicoDto {
     @NotNull
     Integer consulta;
 
-    @NotNull
-    String telefono;
+    Persona persona;
 }
