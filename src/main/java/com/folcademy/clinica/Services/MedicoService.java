@@ -33,7 +33,7 @@ public class MedicoService implements IMedicoService {
     }
 
 
-    @Override
+
     public List<MedicoEnteroDto> findAllMedicos() {
         List<MedicoEnteroDto> medicos=new ArrayList<>();
         List<Medico> medicosEntities= (List<Medico>) medicoRepository.findAll();
@@ -64,11 +64,24 @@ public class MedicoService implements IMedicoService {
         medico.setId(null);
         if (medico.getConsulta()<0)
             throw new BadRequestException("La consulta no puede ser menor a 0");
-        Medico medicoEntity = medicoMapper.dtoToEntity(medico);
-        Persona persona = personaRepository.findById(medico.getId()).get();
+        Persona persona = new Persona();
+        persona.setIdpersona(null);
+        persona.setNombre(medico.getNombre());
+        persona.setApellido(medico.getApellido());
+        persona.setDni(medico.getDni());
+        persona.setTelefono(medico.getTelefono());
+        persona.setDireccion(medico.getDireccion());
+        personaRepository.save(persona);
+        Medico medicoEntity = new Medico();
+        medicoEntity.setConsulta(medico.getConsulta());
+        medicoEntity.setProfesion(medico.getProfesion());
         medicoEntity.setPersona(persona);
         medicoRepository.save(medicoEntity);
-        MedicoEnteroDto medicoEnteroDto = medicoMapper.entityToEnteroDto(medicoEntity);
+        MedicoEnteroDto medicoEnteroDto = new MedicoEnteroDto();
+        medicoEnteroDto.setIdmedico(medicoEntity.getIdmedico());
+        medicoEnteroDto.setConsulta(medicoEntity.getConsulta());
+        medicoEnteroDto.setProfesion(medicoEntity.getProfesion());
+        medicoEnteroDto.setPersona(persona);
         return medicoEnteroDto;
     }
 
@@ -94,8 +107,8 @@ public class MedicoService implements IMedicoService {
         return medicoEnteroDto;
     }
 
-    public Page<MedicoEnteroDto> findAllByPage(Integer pageNumber, Integer pageSize) {
+    public Page<Medico> findAllByPage(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber,pageSize);
-        return medicoRepository.findAll(pageable).map(medicoMapper::entityToEnteroDto);
+        return medicoRepository.findAll(pageable);
     }
 }
