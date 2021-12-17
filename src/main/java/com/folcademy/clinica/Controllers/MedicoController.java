@@ -6,7 +6,6 @@ import com.folcademy.clinica.Model.Entities.Medico;
 import com.folcademy.clinica.Services.MedicoService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,48 +20,40 @@ public class MedicoController {
         this.medicoService = medicoService;
     }
 
-    @PreAuthorize("hasAuthority('get')")
-    @GetMapping(value = "")
-    public ResponseEntity<List<MedicoDto>> findAll() {
-        return ResponseEntity
-                .ok()
-                .body(medicoService.findAllMedicos());
-    }
 
     @GetMapping(value = "/page")
-    public ResponseEntity<Page<MedicoDto>> findAllByPage(
+    public ResponseEntity<Page<MedicoEnteroDto>> findAllByPage(
             @RequestParam(name = "pageNumber",defaultValue = "1") Integer pageNumber,
-            @RequestParam(name = "pageSize",defaultValue = "2") Integer pageSize,
-            @RequestParam(name = "orderField",defaultValue = "apellido") String orderField
+            @RequestParam(name = "pageSize",defaultValue = "2") Integer pageSize
     ) {
         return ResponseEntity
                 .ok()
-                .body(medicoService.findAllByPage(pageNumber,pageSize,orderField));
+                .body(medicoService.findAllByPage(pageNumber,pageSize));
     }
 
-    @PreAuthorize("hasAuthority('get')")
+
     @GetMapping(value = "/{id}")
-    public ResponseEntity<MedicoDto> getOne(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<MedicoEnteroDto> getOne(@PathVariable(name = "id") Integer id) {
         return ResponseEntity
                 .ok()
                 .body(medicoService.findMedicoById(id));
     }
 
-    @PreAuthorize("hasAuthority('post')")
+
     @PostMapping("")
-    public ResponseEntity<MedicoDto> save(@RequestBody @Validated Medico dto) {
+    public ResponseEntity<MedicoEnteroDto> save(@RequestBody @Validated MedicoDto dto) {
         return ResponseEntity.ok(medicoService.save(dto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<MedicoEnteroDto> edit(@PathVariable(name = "id") int id,
-                                                @RequestBody @Validated MedicoEnteroDto dto) {
+                                                @RequestBody @Validated MedicoDto dto) {
         return ResponseEntity.ok(medicoService.edit(id, dto));
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MedicoDto> delete(@PathVariable(name = "id") int id) {
+    public ResponseEntity<MedicoEnteroDto> delete(@PathVariable(name = "id") int id) {
         return ResponseEntity.ok(medicoService.delete(id));
 
 
