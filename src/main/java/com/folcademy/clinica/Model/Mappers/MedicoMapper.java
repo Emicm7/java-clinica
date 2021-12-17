@@ -10,58 +10,35 @@ import java.util.Optional;
 @Component
 public class MedicoMapper {
     public MedicoDto entityToDto(Medico entity) {
-        return Optional
-                .ofNullable(entity)
-                .map(
-                        ent -> new MedicoDto(
-                                ent.getIdmedico(),
-                                ent.getNombre(),
-                                ent.getApellido(),
-                                ent.getProfesion(),
-                                ent.getConsulta(),
-                                ent.getTelefono()
-                        )
-                )
-                .orElse(new MedicoDto());
+        MedicoDto dto = new MedicoDto();
+        dto.setId(entity.getIdmedico());
+        dto.setConsulta(entity.getConsulta());
+        dto.setProfesion(entity.getProfesion());
+        return  dto;
 
     }
 
     public Medico dtoToEntity(MedicoDto dto) {
         Medico entity = new Medico();
         entity.setIdmedico(dto.getId());
-        entity.setNombre(dto.getNombre());
-        entity.setApellido(dto.getApellido());
         entity.setProfesion(dto.getProfesion());
         entity.setConsulta(dto.getConsulta());
-        entity.setTelefono(dto.getTelefono());
         return entity;
     }
 
     public MedicoEnteroDto entityToEnteroDto(Medico entity) {
-        return Optional
-                .ofNullable(entity)
-                .map(
-                        ent -> new MedicoEnteroDto(
-                                ent.getIdmedico(),
-                                ent.getNombre(),
-                                ent.getApellido(),
-                                ent.getProfesion(),
-                                ent.getConsulta(),
-                                ent.getTelefono()
-                        )
-                )
-                .orElse(new MedicoEnteroDto());
+        MedicoEnteroDto dto = new MedicoEnteroDto();
+        dto.setIdmedico(entity.getIdmedico());
+        dto.setProfesion(entity.getProfesion());
+        dto.setConsulta(entity.getConsulta());
+        return dto;
     }
 
     public Medico enteroDtoToEntity(MedicoEnteroDto dto) {
         Medico entity = new Medico();
         entity.setIdmedico(dto.getIdmedico());
-        entity.setNombre(dto.getNombre());
-        entity.setApellido(dto.getApellido());
         entity.setProfesion(dto.getProfesion());
         entity.setConsulta(dto.getConsulta());
-        entity.setTelefono(dto.getTelefono());
         return entity;
     }
-
 }
