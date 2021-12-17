@@ -13,9 +13,16 @@ import lombok.NoArgsConstructor;
 public class MedicoDto {
     Integer id;
 
+    @NotNull
     String nombre;
 
     String apellido;
+
+    String dni;
+
+    String  telefono;
+
+    String direccion;
 
     @NotNull
     String profesion;
@@ -23,5 +30,5 @@ public class MedicoDto {
     @NotNull
     Integer consulta;
 
-    Persona persona;
+
 }
