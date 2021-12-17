@@ -21,12 +21,13 @@ public class Persona {
     String nombre;
     @Column(name = "Apellido")
     String apellido;
-    @Column(name = "dni")
+    @Column(name = "Dni")
     String dni;
+    @Column(name = "Telefono")
+    String telefono;
     @Column(name = "Direccion")
     String direccion;
-    @Column(name = "Telefono")
-    String  telefono;
+
 
 
     @Override
