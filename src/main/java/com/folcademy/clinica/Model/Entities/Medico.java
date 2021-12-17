@@ -17,19 +17,13 @@ public class Medico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idmedico")
     Integer idmedico;
-    @Column(name = "Nombre")
-    String nombre = "";
-    @Column(name = "Apellido")
-    String apellido;
     @Column(name = "Profesion")
     String profesion;
     @Column(name = "Consulta")
     Integer consulta;
-    @Column(name = "Telefono")
-    String telefono;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "persona_id", referencedColumnName = "idpersona")
+    @JoinColumn(name = "idpersona", referencedColumnName = "idpersona")
     private Persona persona;
 
     @Override
