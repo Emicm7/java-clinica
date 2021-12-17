@@ -12,13 +12,14 @@ import lombok.NoArgsConstructor;
 public class PacienteDto {
     Integer id;
 
+    @NotNull
     String nombre;
 
     String apellido;
 
-    Integer dni;
+    String dni;
 
-    Integer telefono;
+    String  telefono;
 
-    Persona persona;
+    String direccion;
 }
