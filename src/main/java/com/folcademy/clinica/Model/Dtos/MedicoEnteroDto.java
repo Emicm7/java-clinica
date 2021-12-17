@@ -1,5 +1,6 @@
 package com.folcademy.clinica.Model.Dtos;
 
+import com.folcademy.clinica.Model.Entities.Persona;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,13 +12,14 @@ import lombok.NoArgsConstructor;
 public class MedicoEnteroDto {
     Integer idmedico;
 
-    String nombre = "";
+    String nombre;
 
-    String apellido = "";
+    String apellido;
 
     String profesion;
 
     Integer consulta;
 
-    String telefono;
+    Persona persona;
+
 }
