@@ -11,13 +11,5 @@ import lombok.NoArgsConstructor;
 public class PacienteEnteroDto {
     Integer idpaciente;
 
-    String nombre;
-
-    String apellido;
-
-    Integer dni;
-
-    Integer telefono;
-
     Persona persona;
 }
