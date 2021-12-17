@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface IMedicoService {
 
-    List<MedicoDto> findAllMedicos();
-    MedicoDto findMedicoById(Integer id);
-    MedicoDto save(Medico medico);
-    MedicoEnteroDto edit(Integer idMedico, MedicoEnteroDto dto);
-    MedicoDto delete(Integer id);
+    List<MedicoEnteroDto> findAllMedicos();
+    MedicoEnteroDto findMedicoById(Integer id);
+    MedicoEnteroDto save(MedicoDto medico);
+    MedicoEnteroDto edit(Integer idMedico, MedicoDto dto);
+    MedicoEnteroDto delete(Integer id);
 }
