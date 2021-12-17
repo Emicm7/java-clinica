@@ -19,6 +19,7 @@ public class Paciente {
     @Column(name = "idpaciente")
     Integer idpaciente;
 
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idpersona", referencedColumnName = "idpersona")
     private Persona persona;
