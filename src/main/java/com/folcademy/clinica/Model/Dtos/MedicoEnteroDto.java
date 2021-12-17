@@ -12,10 +12,6 @@ import lombok.NoArgsConstructor;
 public class MedicoEnteroDto {
     Integer idmedico;
 
-    String nombre;
-
-    String apellido;
-
     String profesion;
 
     Integer consulta;
