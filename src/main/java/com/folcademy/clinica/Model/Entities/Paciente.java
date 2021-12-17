@@ -18,17 +18,9 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idpaciente")
     Integer idpaciente;
-    @Column(name = "dni")
-    String dni;
-    @Column(name = "Nombre")
-    String nombre;
-    @Column(name = "Apellido")
-    String apellido;
-    @Column(name = "Telefono")
-    String  telefono;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "persona_id", referencedColumnName = "idpersona")
+    @JoinColumn(name = "idpersona", referencedColumnName = "idpersona")
     private Persona persona;
 
     @Override
