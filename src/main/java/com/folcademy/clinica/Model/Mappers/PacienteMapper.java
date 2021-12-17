@@ -11,53 +11,26 @@ import java.util.Optional;
 @Component
 public class PacienteMapper {
     public PacienteDto entityToDto(Paciente entity) {
-        return Optional
-                .ofNullable(entity)
-                .map(
-                        ent -> new PacienteDto(
-                                ent.getIdpaciente(),
-                                ent.getDni(),
-                                ent.getNombre(),
-                                ent.getApellido(),
-                                ent.getTelefono()
-                        )
-                )
-                .orElse(new PacienteDto());
-
+        PacienteDto dto = new PacienteDto();
+        dto.setId(entity.getIdpaciente());
+        return  dto;
     }
 
     public Paciente dtoToEntity(PacienteDto dto) {
         Paciente entity = new Paciente();
         entity.setIdpaciente(dto.getId());
-        entity.setDni(dto.getDni());
-        entity.setNombre(dto.getNombre());
-        entity.setApellido(dto.getApellido());
-        entity.setTelefono(dto.getTelefono());
         return entity;
     }
 
     public PacienteEnteroDto entityToEnteroDto(Paciente entity) {
-        return Optional
-                .ofNullable(entity)
-                .map(
-                        ent -> new PacienteEnteroDto(
-                                ent.getIdpaciente(),
-                                ent.getDni(),
-                                ent.getNombre(),
-                                ent.getApellido(),
-                                ent.getTelefono()
-                        )
-                )
-                .orElse(new PacienteEnteroDto());
+        PacienteEnteroDto dto = new PacienteEnteroDto();
+        dto.setIdpaciente(entity.getIdpaciente());
+        return dto;
     }
 
     public Paciente enteroDtoToEntity(PacienteEnteroDto dto) {
         Paciente entity = new Paciente();
         entity.setIdpaciente(dto.getIdpaciente());
-        entity.setDni(dto.getDni());
-        entity.setNombre(dto.getNombre());
-        entity.setApellido(dto.getApellido());
-        entity.setTelefono(dto.getTelefono());
         return entity;
     }
 
