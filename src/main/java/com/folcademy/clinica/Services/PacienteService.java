@@ -33,7 +33,6 @@ public class PacienteService implements IPacienteService {
         this.personaRepository = personaRepository;
     }
 
-    @Override
     public List<PacienteEnteroDto> findAllPacientes() {
         List<PacienteEnteroDto> pacientes = new ArrayList<>();
         List<Paciente> pacientesEntities = (List<Paciente>) pacienteRepository.findAll();
@@ -63,11 +62,20 @@ public class PacienteService implements IPacienteService {
 
     public PacienteEnteroDto save(PacienteDto paciente) {
         paciente.setId(null);
-        Paciente pacienteEntity = pacienteMapper.dtoToEntity(paciente);
-        Persona persona = personaRepository.findById(paciente.getId()).get();
+        Persona persona = new Persona();
+        persona.setIdpersona(null);
+        persona.setNombre(paciente.getNombre());
+        persona.setApellido(paciente.getApellido());
+        persona.setDni(paciente.getDni());
+        persona.setTelefono(paciente.getTelefono());
+        persona.setDireccion(paciente.getDireccion());
+        personaRepository.save(persona);
+        Paciente pacienteEntity = new Paciente();
         pacienteEntity.setPersona(persona);
         pacienteRepository.save(pacienteEntity);
-        PacienteEnteroDto pacienteEnteroDto = pacienteMapper.entityToEnteroDto(pacienteEntity);
+        PacienteEnteroDto pacienteEnteroDto = new PacienteEnteroDto();
+        pacienteEnteroDto.setIdpaciente(pacienteEntity.getIdpaciente());
+        pacienteEnteroDto.setPersona(persona);
         return pacienteEnteroDto;
     }
 
@@ -96,8 +104,8 @@ public class PacienteService implements IPacienteService {
         return pacienteEnteroDto;
     }
 
-    public Page<PacienteEnteroDto> findAllByPage(Integer pageNumber, Integer pageSize) {
+    public Page<Paciente> findAllByPage(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber,pageSize);
-        return pacienteRepository.findAll(pageable).map(pacienteMapper::entityToEnteroDto);
+        return pacienteRepository.findAll(pageable);
     }
 }
