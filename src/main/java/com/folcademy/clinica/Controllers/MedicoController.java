@@ -2,6 +2,7 @@ package com.folcademy.clinica.Controllers;
 
 import com.folcademy.clinica.Model.Dtos.MedicoDto;
 import com.folcademy.clinica.Model.Dtos.MedicoEnteroDto;
+import com.folcademy.clinica.Model.Dtos.PacienteEnteroDto;
 import com.folcademy.clinica.Model.Entities.Medico;
 import com.folcademy.clinica.Services.MedicoService;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,8 +24,8 @@ public class MedicoController {
 
 
     @GetMapping(value = "/page")
-    public ResponseEntity<Page<MedicoEnteroDto>> findAllByPage(
-            @RequestParam(name = "pageNumber",defaultValue = "1") Integer pageNumber,
+    public ResponseEntity<Page<Medico>> findAllByPage(
+            @RequestParam(name = "pageNumber",defaultValue = "0") Integer pageNumber,
             @RequestParam(name = "pageSize",defaultValue = "2") Integer pageSize
     ) {
         return ResponseEntity
