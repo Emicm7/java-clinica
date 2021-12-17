@@ -21,16 +21,10 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
-    @GetMapping(value = "")
-    public ResponseEntity<List<PacienteEnteroDto>> findAll() {
-        return ResponseEntity
-                .ok()
-                .body(pacienteService.findAllPacientes());
-    }
 
     @GetMapping(value = "/page")
-    public ResponseEntity<Page<PacienteEnteroDto>> findAllByPage(
-            @RequestParam(name = "pageNumber",defaultValue = "1") Integer pageNumber,
+    public ResponseEntity<Page<Paciente>> findAllByPage(
+            @RequestParam(name = "pageNumber",defaultValue = "0") Integer pageNumber,
             @RequestParam(name = "pageSize",defaultValue = "2") Integer pageSize
     ) {
         return ResponseEntity
