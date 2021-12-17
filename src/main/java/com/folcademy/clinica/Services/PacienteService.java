@@ -6,9 +6,15 @@ import com.folcademy.clinica.Model.Dtos.MedicoEnteroDto;
 import com.folcademy.clinica.Model.Dtos.PacienteDto;
 import com.folcademy.clinica.Model.Dtos.PacienteEnteroDto;
 import com.folcademy.clinica.Model.Entities.Paciente;
+import com.folcademy.clinica.Model.Entities.Persona;
 import com.folcademy.clinica.Model.Mappers.PacienteMapper;
 import com.folcademy.clinica.Model.Repositories.PacienteRepository;
+import com.folcademy.clinica.Model.Repositories.PersonaRepository;
 import com.folcademy.clinica.Services.Interfaces.IPacienteService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,21 +25,25 @@ import java.util.Objects;
 public class PacienteService implements IPacienteService {
     private final PacienteRepository pacienteRepository;
     private final PacienteMapper pacienteMapper;
+    private final PersonaRepository personaRepository;
 
-    public PacienteService(PacienteRepository pacienteRepository, PacienteMapper pacienteMapper) {
+    public PacienteService(PacienteRepository pacienteRepository, PacienteMapper pacienteMapper, PersonaRepository personaRepository) {
         this.pacienteRepository = pacienteRepository;
         this.pacienteMapper = pacienteMapper;
+        this.personaRepository = personaRepository;
     }
 
     @Override
-    public List<PacienteDto> findAllPacientes() {
-        List<PacienteDto> pacientes = new ArrayList<>();
+    public List<PacienteEnteroDto> findAllPacientes() {
+        List<PacienteEnteroDto> pacientes = new ArrayList<>();
         List<Paciente> pacientesEntities = (List<Paciente>) pacienteRepository.findAll();
         if (pacientesEntities.isEmpty())
             throw new NotFoundException("No se encontraron pacientes");
 
         for (Paciente pacienteEntity : pacientesEntities){
-            pacientes.add(pacienteMapper.entityToDto(pacienteEntity));
+            PacienteEnteroDto dto = pacienteMapper.entityToEnteroDto(pacienteEntity);
+            dto.setPersona(pacienteEntity.getPersona());
+            pacientes.add(dto);
         }
 
         return pacientes;
@@ -42,47 +52,52 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public PacienteDto findPacienteById(Integer id) {
-        if (!pacienteRepository.existsById(id))
-            throw new NotFoundException("No existe el paciente");
-        Paciente pacienteEntity = pacienteRepository.findById(id).orElse(null);
-        PacienteDto pacienteDto = pacienteMapper.entityToDto(pacienteEntity);
-        return pacienteDto;
-    }
-
-    public PacienteDto save(Paciente paciente) {
-        paciente.setIdpaciente(null);
-        if (paciente.getTelefono().isEmpty())
-            throw new BadRequestException("El telefono tiene que ser obligatorio");
-        pacienteRepository.save(paciente);
-        PacienteDto pacienteDto = pacienteMapper.entityToDto(paciente);
-        return pacienteDto;
-    }
-
-    public PacienteEnteroDto edit(Integer idPaciente, PacienteEnteroDto dto) {
-        if (!pacienteRepository.existsById(idPaciente))
-            throw new NotFoundException("No existe el paciente");
-        dto.setIdpaciente(idPaciente);
-        return pacienteMapper.entityToEnteroDto(
-                pacienteRepository.save(
-                        pacienteMapper.enteroDtoToEntity(
-                                dto
-                        )
-                )
-        );
-
-
-
-
-
-    }
-
-    public PacienteDto delete(Integer id) {
+    public PacienteEnteroDto findPacienteById(Integer id) {
         if (!pacienteRepository.existsById(id))
             throw new NotFoundException("No existe el paciente");
         Paciente pacienteEntity = pacienteRepository.findById(id).get();
-        PacienteDto pacienteDto = pacienteMapper.entityToDto(pacienteEntity);
+        PacienteEnteroDto pacienteEnteroDto = pacienteMapper.entityToEnteroDto(pacienteEntity);
+        pacienteEnteroDto.setPersona(pacienteEntity.getPersona());
+        return pacienteEnteroDto;
+    }
+
+    public PacienteEnteroDto save(PacienteDto paciente) {
+        paciente.setId(null);
+        Paciente pacienteEntity = pacienteMapper.dtoToEntity(paciente);
+        Persona persona = personaRepository.findById(paciente.getId()).get();
+        pacienteEntity.setPersona(persona);
+        pacienteRepository.save(pacienteEntity);
+        PacienteEnteroDto pacienteEnteroDto = pacienteMapper.entityToEnteroDto(pacienteEntity);
+        return pacienteEnteroDto;
+    }
+
+    public PacienteEnteroDto edit(Integer idPaciente, PacienteDto dto) {
+        if (!pacienteRepository.existsById(idPaciente))
+            throw new NotFoundException("No existe el paciente");
+        Paciente pacienteEntity = pacienteRepository.findById(idPaciente).get();
+        pacienteRepository.save(pacienteEntity);
+        PacienteEnteroDto pacienteEnteroDto = pacienteMapper.entityToEnteroDto(pacienteEntity);
+        pacienteEnteroDto.setPersona(pacienteEntity.getPersona());
+        return pacienteEnteroDto;
+
+
+
+
+
+    }
+
+    public PacienteEnteroDto delete(Integer id) {
+        if (!pacienteRepository.existsById(id))
+            throw new NotFoundException("No existe el paciente");
+        Paciente pacienteEntity = pacienteRepository.findById(id).get();
+        PacienteEnteroDto pacienteEnteroDto = pacienteMapper.entityToEnteroDto(pacienteEntity);
+        pacienteEnteroDto.setPersona(pacienteEntity.getPersona());
         pacienteRepository.deleteById(id);
-        return pacienteDto;
+        return pacienteEnteroDto;
+    }
+
+    public Page<PacienteEnteroDto> findAllByPage(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        return pacienteRepository.findAll(pageable).map(pacienteMapper::entityToEnteroDto);
     }
 }
